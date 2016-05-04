@@ -1,0 +1,26 @@
+#
+# generated on 2016/05/04 02:33:16
+#
+# --table-start--
+dataClass=evgen.by.test_task.entity.RssItem
+tableName=rssitem
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=title
+# --field-end--
+# --field-start--
+fieldName=description
+# --field-end--
+# --field-start--
+fieldName=date
+# --field-end--
+# --field-start--
+fieldName=link
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
