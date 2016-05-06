@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     android:touchscreenBlocksFocus="false"
     android:baselineAligned="false">
 
 
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+    />
+
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="10dp"
-            >
-        </ImageView>
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:weightSum="100">
 
         <TextView
-            android:layout_width="50dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/textViewHeader"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
 
+            android:gravity="center_vertical"
+            android:layout_weight="90"
+            android:text="TextView"
+            android:textColor="#FFFAFA"
+            android:textSize="13sp">
+        </TextView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="1111.11.11 11.11.11"
-            android:textSize="10sp"
-            android:id="@+id/textViewDate" />
-
+            android:textSize="10dp"
+            android:id="@+id/textViewDate"
+            android:layout_gravity="right" />
     </LinearLayout>
-
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/textViewHeader"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:text="TextView"
-        android:textColor="#FFFAFA"
-        android:textSize="13sp">
-    </TextView>
 
 </LinearLayout>

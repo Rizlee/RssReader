@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by evgen on 03.05.2016.
  */
@@ -14,12 +16,14 @@ public class ArrayAdapter extends android.widget.ArrayAdapter<String> {
     private final Context context;
     private final String[] dates;
     private final String[] headers;
+    private final String[] images;
 
-    public ArrayAdapter(Context context, String[] headers, String[] dates) {
+    public ArrayAdapter(Context context, String[] headers, String[] dates, String[] images) {
         super(context,R.layout.elem_of_list_news,headers);
         this.context = context;
         this.dates = dates;
         this.headers = headers;
+        this.images = images;
     }
 
     @Override
@@ -32,7 +36,13 @@ public class ArrayAdapter extends android.widget.ArrayAdapter<String> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         textView.setText(headers[position]);
         textViewDate.setText(dates[position]);
-        imageView.setImageResource(R.drawable.no_image_icon);
+
+
+        if (images[position].equals("")){
+            imageView.setImageResource(R.drawable.no_image_icon);
+        }else {
+            Picasso.with(context).load(images[position]).into(imageView);
+        }
 
         return rowView;
     }

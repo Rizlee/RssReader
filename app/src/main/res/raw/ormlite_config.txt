@@ -21,6 +21,15 @@ fieldName=date
 # --field-start--
 fieldName=link
 # --field-end--
+# --field-start--
+fieldName=imageSmall
+# --field-end--
+# --field-start--
+fieldName=imageLarge
+# --field-end--
+# --field-start--
+fieldName=category
+# --field-end--
 # --table-fields-end--
 # --table-end--
 #################################

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Test_Task</string>
+    <string name="app_name">Rss Reader</string>
+    <string name="news">Новостная лента</string>
+    <string name="db_name">rss.db</string>
+    <string name="connection_error">Проверьте подключение к интернету</string>
+    <string name="connection_lost">Потеря соединения</string>
+    <string name="user_must_wait">Пожалуйста дождитесь обновления</string>
 </resources>

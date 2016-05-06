@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ListOfNewsActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="200"
+        android:title="Refresh"
+        android:icon="@drawable/ic_refresh_white_48dp"
+        app:showAsAction="ifRoom|withText"
+        />
+</menu>
