@@ -1,22 +1,23 @@
 package evgen.by.test_task;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.PersistableBundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -26,23 +27,37 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.util.List;
 
+import evgen.by.test_task.adapter.DrawableArrayAdapter;
+import evgen.by.test_task.adapter.ListArrayAdapter;
 import evgen.by.test_task.database.DatabaseHelper;
 import evgen.by.test_task.entity.RssItem;
 
 public class ListOfNewsActivity extends AppCompatActivity {
-
+    private String currentUrl;
     private boolean refreshPossibility = true;
     private DatabaseHelper dbHelper;
     private ListView lvOfNews;
     private Toolbar toolbar;
     private static ProgressBar progressBar;
-    ArrayAdapter adapter;
+    private ListArrayAdapter adapter;
+    private String[] rssNames;
+    private String[] rssUrl;
+    private ListView drawerListView;
+    private DrawableArrayAdapter adapterD;
+    private ActionBarDrawerToggle drawerListener;
+    private DrawerLayout drawerLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_of_news_activity);
+
+        currentUrl = getResources().getString(R.string.start_page);
+
+        rssNames = getResources().getStringArray(R.array.rss_names);
+        rssUrl = getResources().getStringArray(R.array.rss);
+
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar3);
 
@@ -51,7 +66,9 @@ public class ListOfNewsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.news));
 
         downloadNewsFromDB();
+        processingDrawer();
     }
+
 
     private void downloadNewsFromDB() {
         dbHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
@@ -60,7 +77,7 @@ public class ListOfNewsActivity extends AppCompatActivity {
         OpenHelperManager.releaseHelper();
 
         lvOfNews = (ListView) findViewById(R.id.listView);
-        adapter = new ArrayAdapter(this, parseNewsHeader(items), parseNewsDate(items), parseNewsImage(items));
+        adapter = new ListArrayAdapter(this, parseNewsHeader(items), parseNewsDate(items), parseNewsImage(items));
 
         lvOfNews.setDivider(getResources().getDrawable(android.R.color.transparent));
         lvOfNews.setAdapter(adapter);
@@ -75,6 +92,46 @@ public class ListOfNewsActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(getApplicationContext(), getApplicationContext().getResources()
                             .getString(R.string.user_must_wait), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void processingDrawer(){
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerListView = (ListView) findViewById(R.id.left_drawer);
+        drawerListener = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.news, R.string.news ){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        drawerListView.setDivider(getResources().getDrawable(android.R.color.transparent));
+
+        adapterD = new DrawableArrayAdapter(getApplicationContext(),rssNames);
+        drawerListView.setAdapter(adapterD);
+        drawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (isOnline()) {
+                    if (refreshPossibility) {
+                        refreshPossibility = false;
+                        currentUrl = rssUrl[position];
+                        getApplicationContext().deleteDatabase(getResources().getString(R.string.db_name));
+                        new Refresh().execute(getApplicationContext());
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -111,16 +168,16 @@ public class ListOfNewsActivity extends AppCompatActivity {
     public void onBackPressed() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ListOfNewsActivity.this);
 
-        dialogBuilder.setTitle("Выйти?");
+        dialogBuilder.setTitle(getResources().getString(R.string.exit));
 
-        dialogBuilder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 moveTaskToBack(true);
             }
         });
 
-        dialogBuilder.setNegativeButton("Нет, я останусь", new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -138,13 +195,15 @@ public class ListOfNewsActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Context... context) {
-            new RefreshDB().refresh(context[0],2);
+            new RefreshDB().refresh(context[0], currentUrl, 2);
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            setProgressBar(0);
             downloadNewsFromDB();
             refreshPossibility = true;
         }

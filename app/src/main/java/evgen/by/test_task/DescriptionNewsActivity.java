@@ -49,6 +49,7 @@ public class DescriptionNewsActivity extends AppCompatActivity {
         dateTextView.setText(items.get(position).getDate());
         Picasso.with(getApplicationContext())
                 .load(items.get(position).getImageLarge())
+                .placeholder(R.drawable.download)
                 .error(R.drawable.no_image_icon).into(imageView);
         descriptionTextView.setText(items.get(position).getDescription());
     }

@@ -71,12 +71,13 @@ public class StartAcrivity extends AppCompatActivity {
     public class RetrieveRssItems extends AsyncTask<Context,Integer,Void> {
         @Override
         protected Void doInBackground(Context... context) {
-            new RefreshDB().refresh(context[0],1);
+            new RefreshDB().refresh(context[0],getResources().getString(R.string.start_page),1);
             return null;
         }
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            setProgressBar(0);
             runListAContext();
         }
     }

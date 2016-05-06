@@ -1,8 +1,37 @@
 <resources>
     <string name="app_name">Rss Reader</string>
     <string name="news">Новостная лента</string>
+    <string name="open_drawerlayout">Выберите категорию</string>
     <string name="db_name">rss.db</string>
     <string name="connection_error">Проверьте подключение к интернету</string>
     <string name="connection_lost">Потеря соединения</string>
     <string name="user_must_wait">Пожалуйста дождитесь обновления</string>
+    <string name="start_page">http://news.tut.by/rss/</string>
+    <string name="exit">Выйти?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+    <string-array name="rss">
+        <item>http://news.tut.by/rss/</item>
+        <item>http://news.tut.by/rss/politics.rss</item>
+        <item>http://news.tut.by/rss/afisha.rss</item>
+        <item>http://news.tut.by/rss/economics.rss</item>
+        <item>http://news.tut.by/rss/society.rss</item>
+        <item>http://news.tut.by/rss/world.rss</item>
+        <item>http://news.tut.by/rss/auto.rss</item>
+        <item>http://news.tut.by/rss/sport.rss</item>
+    </string-array>
+
+    <string-array name="rss_names">
+        <item>Главные новости недели</item>
+        <item>Политика</item>
+        <item>Афиша</item>
+        <item>Экономика и бизнес</item>
+        <item>Общество</item>
+        <item>В мире</item>
+        <item>Авто</item>
+        <item>Спорт</item>
+    </string-array>
+
+
 </resources>

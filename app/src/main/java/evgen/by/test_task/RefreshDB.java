@@ -30,7 +30,7 @@ import evgen.by.test_task.entity.RssItem;
  * Created by evgen on 05.05.2016.
  */
 public class RefreshDB {
-    public void refresh(Context context, int mode){
+    public void refresh(Context context,String urlString, int mode){
         final Pattern IMG_PATTERN = Pattern.compile("(?<=(img src=\"))[^\"]*(?=\")");
         final Pattern DESCRIPTION_PATTERN = Pattern.compile("(?<=(/>)).*(?=<br)");
 
@@ -40,7 +40,7 @@ public class RefreshDB {
 
         ArrayList<RssItem> rssItems = new ArrayList<RssItem>();
         try {
-            URL url = new URL("http://news.tut.by/rss/");
+            URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -100,7 +100,6 @@ public class RefreshDB {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, context.getResources().getString(R.string.connection_lost), Toast.LENGTH_SHORT).show();
         }
         dbHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
 

@@ -33,7 +33,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
-            Log.d("helpme","yes");
             TableUtils.createTable(connectionSource, RssItem.class);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,7 +42,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int i, int i1) {
         try {
-            Log.d("helpme","yes");
             TableUtils.dropTable(connectionSource,RssItem.class,true);
             onCreate(sqLiteDatabase, connectionSource);
         } catch (SQLException e) {
